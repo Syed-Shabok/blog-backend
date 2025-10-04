@@ -120,6 +120,7 @@ async function updateBlog(id) {
   }
 }
 
+// Shows a single blog
 async function getBlog(id) {
     let res = await fetch(`${API}/${id}`);
     let data = await res.json();
