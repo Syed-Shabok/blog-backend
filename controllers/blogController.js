@@ -1,33 +1,39 @@
 let blogs = [];
+let nextId = 1;
 
-// Create blog
+// Creates a blog
 exports.createBlog = (req, res) => {
   const { title, content, author } = req.body;
   const newBlog = {
-    id: blogs.length + 1,
+    id: nextId++,
     title,
     content,
     author,
     createdAt: new Date()
   };
-  blogs.push(newBlog);
+  blogs.unshift(newBlog);
 
   console.log("Blog Created:", newBlog);
   res.json({ message: "Blog created successfully", blog: newBlog });
 };
 
-// Get all blogs
+// Gets all blogs
 exports.getAllBlogs = (req, res) => {
   console.log("Fetching all bloggs");
   res.json({ message: "All blogs fetched successfully", blogs });
 };
 
-// Get single blog
+// Gets a single blog by ID
 exports.getBlogById = (req, res) => {
-  const blog = blogs.find(b => b.id === parseInt(req.params.id));
-  if (!blog) return res.status(404).json({ message: "Blog not found" });
+  const id = parseInt(req.params.id);
+  const blog = blogs.find(b => b.id === id);
 
-  console.log("Single Blog Fetched:", blog);
+  if (!blog) {
+    console.log("Blog not found:", id);
+    return res.status(404).json({ message: "No such Blog found!" });
+  }
+
+  console.log("Blog Fetched:", blog);
   res.json({ message: "Blog fetched successfully", blog });
 };
 

@@ -18,12 +18,12 @@ async function loadBlogs() {
     blogs.forEach(blog => {
       blogsDiv.innerHTML += `
         <div class="blog" id="blog-${blog.id}">
+            <small>ID: ${blog.id}</small>
             <h3>${blog.title}</h3>
             <p>${blog.content}</p>
             <small>By ${blog.author}</small><br>
             <button onclick="showEditForm(${blog.id})">Edit</button>
             <button onclick="deleteBlog(${blog.id})">Delete</button>
-            <button onclick="getBlog(${blog.id})">View</button>
             
             <div id="edit-form-${blog.id}" style="display:none; margin-top:10px;">
               <input id="edit-title-${blog.id}" value="${blog.title}" />
@@ -85,17 +85,17 @@ async function deleteBlog(id) {
   }
 }
 
-// Show edit form
+// Shows the edit form
 function showEditForm(id) {
   document.getElementById(`edit-form-${id}`).style.display = "block";
 }
 
-// Hide edit form
+// Hides the edit form
 function hideEditForm(id) {
   document.getElementById(`edit-form-${id}`).style.display = "none";
 }
 
-// Updates blogs
+// Updates a blog
 async function updateBlog(id) {
   let title = document.getElementById(`edit-title-${id}`).value;
   let content = document.getElementById(`edit-content-${id}`).value;
@@ -120,16 +120,27 @@ async function updateBlog(id) {
   }
 }
 
-// Shows a single blog
-async function getBlog(id) {
+// Shows a single blog by its ID
+async function getBlogById() {
+  let id = document.getElementById("blogId").value;
+  if (!id) {
+    alert("Please enter a blog ID!");
+    return;
+  }
+
+  try {
     let res = await fetch(`${API}/${id}`);
     let data = await res.json();
 
     if (data.blog) {
-        alert(`Title: ${data.blog.title}\nContent: ${data.blog.content}\nAuthor: ${data.blog.author}`);
+      alert(`Title: ${data.blog.title}\nContent: ${data.blog.content}\nAuthor: ${data.blog.author}`);
     } else {
-        alert("Blog not found");
+      alert(data.message || "No such Blog found!");
     }
+  } catch (err) {
+    console.error("Error fetching blog:", err);
+    alert("Error fetching blog");
+  }
 }
 
 // Load blogs at startup

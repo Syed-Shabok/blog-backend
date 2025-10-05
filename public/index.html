@@ -2,22 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>Blog Manager</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>Blog Manager</h1>
 
-  <h2>Create Blog</h2>
-  <input id="title" placeholder="Title">
-  <textarea id="content" placeholder="Content"></textarea>
-  <input id="author" placeholder="Author">
-  <button onclick="createBlog()">Create</button>
+  <div style="display:flex; gap:50px;">
+    <!-- Create Blog Section -->
+    <div>
+      <h2>Create Blog</h2>
+      <input id="title" placeholder="Title">
+      <textarea id="content" placeholder="Content"></textarea>
+      <input id="author" placeholder="Author">
+      <button onclick="createBlog()">Create</button>
+    </div>
 
+    <!-- View Blog by Id Secrtion -->
+    <div>
+      <h2>View Blog by ID</h2>
+      <input id="blogId" type="number" placeholder="Enter Blog ID">
+      <button onclick="getBlogById()">View</button>
+      <div id="singleBlog"></div>
+    </div>
+  </div>
+
+  <!-- Section to show all blogs -->
   <h2>All Blogs</h2>
   <div id="blogs"></div>
 
   <script src="script.js"></script>
-
 </body>
 </html>
